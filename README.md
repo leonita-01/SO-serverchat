@@ -16,17 +16,17 @@ Open a terminal and navigate to the directory where the source code is located.
 
 Compile the server program using the following command:
 
-##Copy code
+## Copy code
 gcc server.c -o server
 Compile the client program using the following command:
 
-##Copy code
+## Copy code
 gcc client.c -o client
 Running the Program
 Start the server by running the following command in a terminal:
 
 bash
-##Copy code
+## Copy code
 ./server
 The server will start and display a message indicating that it is running.
 
@@ -43,7 +43,7 @@ To quit the client program, type "/quit" and press Enter.
 
 To stop the server, go to the server terminal and press Ctrl+C.
 
-##Implementation Details
+##  Implementation Details
 The server program uses sockets to establish connections with clients and create a new thread for each client connection. It uses message passing to relay messages between clients. The server maintains a list of connected clients and manages access to shared resources using mutex locks.
 
 The client program connects to the server using a socket and allows users to send and receive messages. It runs on a separate terminal window and provides a simple command-line interface.
