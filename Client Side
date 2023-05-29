@@ -14,3 +14,25 @@ typedef struct {
     int sockfd;
 } client_t;
 
+
+void *receive_handler(void *arg) {
+    client_t *client = (client_t *)arg;
+    char buffer[MAX_BUFFER];
+    while (1) {
+        int receive = recv(client->sockfd, buffer, MAX_BUFFER, 0);
+        if (receive > 0) {
+            printf("%s\n", buffer); // Print the relayed message on the client's terminal
+        } else if (receive == 0) {
+            break;
+        } else {
+            // Handle error (-1)
+        }
+        memset(buffer, 0, sizeof(buffer));
+    }
+    return NULL;
+}
+
+int main(int argc, char **argv) {
+    char *ip = "127.0.0.1";  // Adresa IP e serverit
+    int port = 12345;  // Porta për të lidhur me serverin
+    char buffer[MAX_BUFFER];
