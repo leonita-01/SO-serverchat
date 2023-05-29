@@ -1,7 +1,7 @@
 # Chat Program
 This is a simple chat program implemented in C language. The program includes a chat server and client applications that can connect to the server to exchange messages.
 
-Overview
+## Overview
 The chat program consists of two main components: the server and the client. The server accepts incoming client connections, maintains a list of connected clients, and relays messages between clients. Each message sent by a client is tagged with a timestamp and the name of the sender.
 
 The client application allows users to connect to the server, send messages, and receive messages from other connected clients. The client program provides a simple command-line interface for interacting with the chat server.
