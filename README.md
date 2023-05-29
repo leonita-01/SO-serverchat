@@ -1,4 +1,4 @@
-Chat Program
+# Chat Program
 This is a simple chat program implemented in C language. The program includes a chat server and client applications that can connect to the server to exchange messages.
 
 Overview
