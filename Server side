@@ -68,3 +68,51 @@ void *handle_client(void *arg){
     }
 
 
+
+// Conversation protocol
+    while(1){
+        if (leave_flag) {
+            break;
+        }
+
+        int receive = recv(cli->sockfd, buffer, BUFFER_SIZE, 0);
+        if (receive > 0){
+            if(strlen(buffer) > 0){
+                if(strcmp(buffer, "/quit") == 0){
+                    leave_flag = 1;
+                } else if(strcmp(buffer, "/list") == 0){
+                    for(int i = 0; i < MAX_CLIENTS; i++){
+                        if(clients[i]){
+                            send_message(clients[i]->name, cli->uid);
+                        }
+                    }
+
+
+
+
+} else if(strncmp(buffer, "/msg", 4) == 0){
+                    char recipient[32];
+                    strncpy(recipient, buffer + 5, sizeof(recipient));
+                    char *space_ptr = strchr(recipient, ' ');
+                    if(space_ptr != NULL){
+                        *space_ptr = '\0';
+                        char *message = space_ptr + 1;
+                        for(int i = 0; i < MAX_CLIENTS; i++){
+                            if(clients[i] != NULL && strcmp(clients[i]->name, recipient) == 0){
+                                send_message(message, cli->uid);
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    add_timestamp(buffer);
+                    strcat(buffer, cli->name); // Add the name of the client to the message
+
+
+ pthread_mutex_lock(&print_mutex);
+                    printf("%s\n", buffer); // Print the message on the server's terminal
+                    pthread_mutex_unlock(&print_mutex);
+
+                    send_message(buffer, cli->uid);
+                }
+            }
