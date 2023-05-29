@@ -56,3 +56,10 @@ void *handle_client(void *arg){
     int leave_flag = 0;
 
     client_t *cli = (client_t *)arg;
+
+
+ // Name protocol
+    if(recv(cli->sockfd, name, 32, 0) <= 0 || strlen(name) < 2 || strlen(name) >= 32-1){
+        printf("Didn't enter the name correctly.\n");
+        leave_flag = 1;
+        
