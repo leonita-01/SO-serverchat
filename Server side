@@ -62,4 +62,9 @@ void *handle_client(void *arg){
     if(recv(cli->sockfd, name, 32, 0) <= 0 || strlen(name) < 2 || strlen(name) >= 32-1){
         printf("Didn't enter the name correctly.\n");
         leave_flag = 1;
-        
+         } else {
+        strncpy(cli->name, name, sizeof(cli->name));
+        printf("%s has joined\n", cli->name);
+    }
+
+
