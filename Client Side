@@ -7,3 +7,10 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <arpa/inet.h>
+#define MAX_BUFFER 2048
+
+typedef struct {
+    char name[32];
+    int sockfd;
+} client_t;
+
