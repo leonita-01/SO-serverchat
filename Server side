@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <time.h>
+#include <arpa/inet.h>
+
+#define MAX_CLIENTS 100
+#define BUFFER_SIZE 2048
+
+typedef struct {
+    struct sockaddr_in address;
+    int sockfd;
+    int uid;
+    char name[32];
+} client_t;
+
+client_t *clients[MAX_CLIENTS];
+pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+int cli_count = 0;
+int uid = 0;
+pthread_mutex_t print_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void add_timestamp(char* buffer) {
+    time_t timer;
+    char time_buffer[26];
+    struct tm* tm_info;
+
+    time(&timer);
+    tm_info = localtime(&timer);
+
+    strftime(time_buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    strcat(buffer, time_buffer);
+}
+
+void send_message(const char *s, const int uid){
+    pthread_mutex_lock(&clients_mutex);
+    pthread_mutex_lock(&print_mutex);
+    for(int i=0; i<MAX_CLIENTS; ++i){
+        if(clients[i]){
+            if(clients[i]->uid != uid){
+                write(clients[i]->sockfd, s, strlen(s));
+            }
+        }
+    }
+    pthread_mutex_unlock(&print_mutex);
+    pthread_mutex_unlock(&clients_mutex);
+}
+
+void *handle_client(void *arg){
+    char buffer[BUFFER_SIZE];
+    char name[32];
+    int leave_flag = 0;
+
+    client_t *cli = (client_t *)arg;
