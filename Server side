@@ -116,3 +116,13 @@ void *handle_client(void *arg){
                     send_message(buffer, cli->uid);
                 }
             }
+           } else if (receive == 0){
+            sprintf(buffer, "%s has left", cli->name);
+            printf("%s\n", buffer);
+            leave_flag = 1;
+        } else {
+            printf("ERROR: -1\n");
+            leave_flag = 1;
+        }
+        bzero(buffer, BUFFER_SIZE);
+    }
