@@ -187,3 +187,14 @@ int main(int argc, char **argv){
                 clients[i] = cli;
                 break;
             }
+          }
+        pthread_mutex_unlock(&clients_mutex);
+
+        // Create thread for client communication
+        pthread_create(&tid, NULL, &handle_client, (void*)cli);
+
+        sleep(1);
+    }
+
+    return 0;
+}
