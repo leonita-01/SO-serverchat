@@ -56,3 +56,13 @@ int main(int argc, char **argv) {
 
     client_t client;
     strcpy(client.name, buffer);
+    client.sockfd = sockfd;
+
+    printf("Welcome %s! You can now send messages!\n", client.name);
+
+    pthread_t receive_thread;
+    if (pthread_create(&receive_thread, NULL, &receive_handler, (void *)&client) != 0) {
+        printf("ERROR: pthread\n");
+        return EXIT_FAILURE;
+    }
+
