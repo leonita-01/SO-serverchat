@@ -126,3 +126,20 @@ void *handle_client(void *arg){
         }
         bzero(buffer, BUFFER_SIZE);
     }
+    close(cli->sockfd);
+    pthread_mutex_lock(&clients_mutex);
+
+    // Find and remove client from array
+    for(int i=0; i<MAX_CLIENTS; ++i) {
+        if(clients[i] == cli) {
+            clients[i] = NULL;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&clients_mutex);
+    free(cli);
+    pthread_detach(pthread_self());
+
+    return NULL;
+}
