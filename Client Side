@@ -65,4 +65,18 @@ int main(int argc, char **argv) {
         printf("ERROR: pthread\n");
         return EXIT_FAILURE;
     }
+    while (1) {
+        fgets(buffer, MAX_BUFFER, stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+        send(sockfd, buffer, strlen(buffer), 0);
+
+        if (strcmp(buffer, "/quit") == 0) {
+            break;
+        }
+    }
+
+    close(sockfd);
+
+    return EXIT_SUCCESS;
+}
 
