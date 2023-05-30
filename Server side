@@ -172,3 +172,18 @@ int main(int argc, char **argv){
             close(new_sock);
             continue;
         }
+            // Client settings
+        client_t *cli = (client_t *)malloc(sizeof(client_t));
+        cli->address = cli_addr;
+        cli->sockfd = new_sock;
+        cli->uid = uid++;
+
+        pthread_t tid;
+
+        // Add client to the array
+        pthread_mutex_lock(&clients_mutex);
+        for(int i=0; i<MAX_CLIENTS; ++i){
+            if(!clients[i]){
+                clients[i] = cli;
+                break;
+            }
